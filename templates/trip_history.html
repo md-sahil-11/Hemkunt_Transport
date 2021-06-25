@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>HEMKUNT TRANSPORT</title>
+    <!-- core:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}"
+    />
+
+    <link rel="stylesheet" href="{% static 'assets/css/demo_2/style.css' %}" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" />
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <a href="" class="sidebar-brand">HEMKUNT TRANSPORT </a>
+          <div class="sidebar-toggler not-active">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div class="sidebar-body">{% include './includes/nav.html' %}</div>
+      </nav>
+
+      <div class="page-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar">
+          <a href="#" class="sidebar-toggler">
+            <i data-feather="menu"></i>
+          </a>
+          <div class="navbar-content"></div>
+        </nav>
+        <!-- partial -->
+
+        <div class="page-content">
+          <!-- 	<nav class="page-breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#">Tables</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Data Table</li>
+					</ol>
+				</nav> -->
+
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Trip History</h6>
+                  <form method="POST">
+                  {% csrf_token %}
+                  <p>
+                    From &nbsp; <input type="date" name="from" /> &nbsp;To
+                    <input type="date" name="to" />
+                    &nbsp;
+                    <button type="submit">Search</button>
+                  </p>
+                </form>
+                <br />
+                  {% comment %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <p>
+                      From &nbsp; <input type="date" name="from" /> &nbsp;To
+                      <input type="date" name="to" />
+                      &nbsp;Supplier
+                      <input
+                        type="text"
+                        name="party"
+                        placeholder="Search party"
+                        list="parties"
+                      />
+                      <datalist id="parties">
+                        {% for p in parties %}
+                        <option value="{{p.name}}">{{p.name}}</option>
+                        {% endfor %}
+                      </datalist>
+                      <button type="submit">Search</button>
+                    </p>
+                  </form>
+                  <br />
+                  {% endcomment %} {% comment %}
+                  <a href="{% url 'csv-report-sale' %}" class="btn btn-primary">
+                    Download Excel Sheet
+                  </a>
+                  {% endcomment %}
+                  <br />
+                  <div class="table-responsive">
+                    <input
+                      type="search"
+                      id="myInput"
+                      onkeyup="myFunction()"
+                      placeholder="Search"
+                      class="form-control"
+                    />
+                    <table id="myTable" class="table">
+                      <thead>
+                        <tr>
+                          <th>Trip Id</th>
+                          <th>Date</th>
+                          <th>Source</th>
+                          <th>Destination</th>
+                          <th>Truck</th>
+                          <th>Rate</th>
+                          <th>weight</th>
+                          <th>Freight</th>
+                          <th>Contact Number</th>
+                          <th>Status</th>
+                          <th>Details</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for trip in trips %}
+                        <tr>
+                          <td>
+                            {% comment %} <a
+                              href="{% url 'trip_slip' trip.id %}"
+                              >{{trip.id}}</a
+                            > {% endcomment %}
+                            {{trip.id}}
+                          </td>
+                          <td>{{trip.date|date:"d/m/Y" }}</td>
+                          <td>{{trip.source }}</td>
+                          <td>{{trip.destination }}</td>
+                          <td>{{trip.truck.truck_number}}</td>
+                          <td>₹{{trip.rate}}</td>
+                          <td>{{trip.weight}} MT</td>
+                          <td style="color: red">
+                            ₹{{ trip.freight|floatformat:2 }}
+                          </td>
+                          <td>{{trip.contact_number}}</td>
+                          <td>
+                          {% if trip.status %}
+                           <span style='color: green;'>
+                            Completed
+                           </span>
+                          {% else %}
+                           <span style='color: red;'>
+                            Pending
+                           </span>
+                          {% endif %}
+                          </td>
+                          <td>
+                            <a
+                              href="{% url 'trip_info' trip.id %}"
+                              >View</a
+                            >
+                          </td>
+                          <td>
+                          {% if not trip.status %}
+                          <a href="{% url 'end_trip' trip.id %}">
+                            <button class="btn btn-success">
+                              End Trip
+                            </button>
+                          </a>
+                          {% endif %}
+                          </td>
+                        </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- partial:../../partials/_footer.html -->
+        <footer
+          class="
+            footer
+            d-flex
+            flex-column flex-md-row
+            align-items-center
+            justify-content-between
+          "
+        >
+          <p class="text-muted text-center text-md-left">
+            © 2021 HEMKUNT TRANSPORT. All rights reserved
+          </p>
+        </footer>
+        <!-- partial -->
+      </div>
+    </div>
+    <script>
+      function myFunction() {
+        var input, filter, table, tr, td, cell, i, j;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 1; i < tr.length; i++) {
+          // Hide the row initially.
+          tr[i].style.display = "none";
+
+          td = tr[i].getElementsByTagName("td");
+          for (var j = 0; j < td.length; j++) {
+            cell = tr[i].getElementsByTagName("td")[j];
+            if (cell) {
+              if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+                break;
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <script src="{% static 'assets/vendors/core/core.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+    <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
+    <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/js/template.js' %}"></script>
+  </body>
+</html>

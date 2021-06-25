@@ -1,0 +1,442 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Hemkunt Transport</title>
+    <!-- core:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}"
+    />
+
+    <link rel="stylesheet" href="{% static 'assets/css/demo_2/style.css' %}" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      {% include 'includes/nav.html' %}
+      <div class="page-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar">
+          <a href="#" class="sidebar-toggler">
+            <i data-feather="menu"></i>
+          </a>
+          <div class="navbar-content"></div>
+        </nav>
+        <!-- partial -->
+
+        <div class="page-content" id="consignment">
+          <div class="row">
+            <div class="col-md-12 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">New Consignment</h6>
+                  <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                      {% comment %}
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">Invoice NO </label><br />
+                          <input
+                            type="text"
+                            name="invoice_no"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      {% endcomment %}
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">Date</label><br />
+                          <input
+                            type="date"
+                            name="date"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label class="control-label">No. NHRT/RKL</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="nhrt_no"
+                            autocomplete="off"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label class="control-label">FROM</label><br />
+                          <input
+                            type="text"
+                            name="source"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">TO</label><br />
+                          <input
+                            type="text"
+                            name="destination"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label class="control-label">Truck</label><br />
+                          <input
+                            type="text"
+                            name="truck"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                            list="trucks"
+                          />
+                           <datalist id="trucks">
+                          {% for t in trucks %}
+                            <option value="{{t.truck_number}} "></option>
+                          {% endfor %}
+                          </datalist>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignor GSTIN</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignor_gst"
+                            class="form-control"
+                            required
+                            v-model="consignor_gstin"
+                            @change="get_consignor()"
+                            style="font-size: 18px; font-weight: bold"
+                            list="consignors"
+                          />
+                           <datalist id="consignors">
+                          {% for c in consignors %}
+                            <option value="{{c.gstin}}">{{c.name}} : {{c.address}}</option> </option>
+                          {% endfor %}
+                          </datalist>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignor Name</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignor_name"
+                            v-model="consignor_name"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignor Address</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignor_address"
+                            v-model="consignor_address"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignee GSTIN</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignee_gst"
+                            v-model="consignee_gstin"
+                            @change="get_consignee()"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                            list="consignees"
+                          />
+                           <datalist id="consignees">
+                          {% for c in consignees %}
+                            <option value="{{c.gstin}}"> {{c.name}} : {{c.gstin}}</option>
+                          {% endfor %}
+                          </datalist>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignee Name</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignee_name"
+                            v-model="consignee_name"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignee Address</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignee_address"
+                            v-model="consignee_address"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label"
+                            >Description of Goods</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="description"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">E-Way Bill No.</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="ewaybill"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Value</label><br />
+                          <input
+                            type="text"
+                            name="value"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Weight (MT)</label><br />
+                          <input
+                            type="text"
+                            name="weight"
+                            v-model="weight"
+                            class="form-control"
+                            @change="calculate_freight()"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Rate/MT</label><br />
+                          <input
+                            type="text"
+                            name="rate"
+                            v-model="rate"
+                            @change="calculate_freight()"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Freight</label><br />
+                          <input
+                            type="text"
+                            name="freight"
+                            v-model="freight"
+                            readonly
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">Payment Mode</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="advance_mode"
+
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                            list="modes"
+                          />
+                           <datalist id="modes">
+                          {% for m in modes %}
+                            <option value="{{m.name}}"> {{p.name}} </option>
+                          {% endfor %}
+                          </datalist>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">Advance</label><br />
+                          <input
+                            type="text"
+                            name="advance"
+                            v-model="advance"
+                            @change="calculate_freight()"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label>Bill Type</label><br />
+                          <select
+                            class="js-example-basic-single w-100"
+                            data-width="100%"
+                            style="font-size: 18px; font-weight: bold"
+                            name="remaining_payment_type"
+                          >
+                            <option value="To Pay">To Pay</option>
+                            <option value="To Be Billed">To Be Billed</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">Remaining Amount</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="remaining_payment"
+                            v-model="remaining_payment"
+                            readonly
+                            value="0"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-8">
+                        <div class="form-group">
+                          <label class="control-label">Comment</label><br />
+                          <input
+                            type="text"
+                            name="comment"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <button
+                        type="submit"
+                        class="btn btn-success submit"
+                        style="float: right"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- partial:../../partials/_footer.html -->
+        <footer
+          class="
+            footer
+            d-flex
+            flex-column flex-md-row
+            align-items-center
+            justify-content-between
+          "
+        >
+          <p class="text-muted text-center text-md-left">
+            &copy; 2021 <a href=""> Hemkunt Transport</a>
+          </p>
+          <p class="text-muted text-center text-md-left mb-0 d-none d-md-block">
+            Designed & Developed By : <a href="http://strix.co.in/"> Strix</a>
+          </p>
+        </footer>
+        <!-- partial -->
+      </div>
+    </div>
+
+    <!-- core:js -->
+    <script src="{% static 'assets/vendors/core/core.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
+    <script src="{% static 'assets/js/sale.js' %}"></script>
+    <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/js/template.js' %}"></script>
+  </body>
+</html>

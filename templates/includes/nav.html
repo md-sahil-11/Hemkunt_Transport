@@ -1,0 +1,62 @@
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="#" class="sidebar-brand">
+            Hemkunt Transport
+        </a>
+        <div class="sidebar-toggler not-active">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="sidebar-body">
+        <ul class="nav">
+            <br/>
+            <br/>
+            <li class="nav-item">
+                <a href="{% url 'consignment' %}" class="nav-link">
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">New Consignment</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'consignors' %}" class="nav-link">
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">Consignors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'consignment_history' %}" class="nav-link">
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">Consignment History</span>
+                </a>
+            </li>
+            <br />
+            <br />
+            {% comment %} <li class="nav-item">
+                <a href="{% url 'trip' %}" class="nav-link">
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">Trip</span>
+                </a>
+            </li> {% endcomment %}
+            <li class="nav-item">
+                <a href="{% url 'trip_history' %}" class="nav-link">
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">Trip History</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'truckers' %}" class="nav-link">
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">Truckers</span>
+                </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a href="/admin" class="nav-link">
+                    <i class="link-icon" data-feather="user"></i>
+                    <span class="link-title">Admin</span>
+                </a>
+            </li> -->
+        </ul>
+    </div>
+</nav>

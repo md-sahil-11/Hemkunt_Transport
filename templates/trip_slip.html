@@ -1,0 +1,281 @@
+{% load static %}
+<!DOCTYPE >
+<html>
+  <head>
+    <title> APPROVAL SLIP</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/billcss/bootstrap.min.css' %}"
+    />
+
+    <style>
+      * {
+        border: none;
+        box-sizing: content-box;
+        color: inherit;
+        font-family: Arial;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        vertical-align: top;
+      }
+
+      html {
+        overflow: auto;
+        padding: 0.3in;
+      }
+      html {
+        background: #999;
+        cursor: default;
+      }
+
+      body {
+        box-sizing: border-box;
+        height: 11in;
+        margin: 0 auto;
+        padding: 0.1in;
+        width: 8.5in;
+      }
+      body {
+        background: #fff;
+        border-radius: 1px;
+        box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+      }
+      .hideextra {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* header */
+
+      header {
+        margin: 0 0 3em;
+      }
+      header:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      @page {
+        size: A4;
+      }
+
+      @media print {
+        #printPageButton {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main style="padding: 10px">
+      {% comment %}
+      <p><a href="{% url 'sale' %}" id="printPageButton">Home</a></p>
+      {% endcomment %}
+      <h1>&nbsp;</h1>
+      <h5
+        class="text-center"
+        style="width: 280px; position: relative; top: -66px; left: 250px"
+      >
+       RELIANCE DIESEL - TOLLFREE NO.:- 18003157844, CODE-1111 
+      </h5>
+
+      <h4
+        class="text-center"
+        style="transform: translateY(-65px); font-size: 20px; font-weight: 900"
+      >
+        APPROVAL SLIP <br />
+        <b style="font-size:14px";>Rourkela</b>
+      </h4>
+      
+
+      <section style="transform: translateY(-70px)">
+        <table
+          class="table table-condensed table-bordered table-responsive"
+          style="width: 730px"
+        >
+          <tr>
+            <td colspan="3">Sl. no : <b>{{trip.id}}</b></td>
+            <td colspan="3" style="text-align: right">
+              DATE : <b>{{trip.date|date:"d/m/Y" }}</b>
+            </td>
+          </tr>
+        </table>
+
+        <aside style="transform: translateY(-20px)">
+         <table
+            class="table table-bordered table-condensed"
+            style="width: 730px"
+          > 
+            {% comment %} <tr>
+              <td colspan="3">Details of Consignor</td>
+
+              <td colspan="3">Details of Consignee</td>
+            </tr> {% endcomment %}
+
+            {% comment %} <tr>
+              <td colspan="3">
+                <h6 style="letter-spacing: 0.8px">
+                  Name:{{consignment.consignor.name}}<br />
+                  Address: {{consignment.consignor.address}}<br />
+                  GSTIN: {{consignment.consignor.gstin}}<br />
+                </h6>
+              </td>
+
+              <td colspan="3">
+                <h6 style="letter-spacing: 0.8px">
+                  Party : <b>{{consignment.consignee.name}}</b><br />
+                  Address: <b>{{consignment.consignee.address}}</b><br />
+                  GSTIN :<b>{{consignment.consignee.gstin}}</b><br />
+                </h6>
+              </td>
+            </tr> {% endcomment %}
+          </table> 
+
+          {% comment %} <table
+            
+            class="table table-condensed table-bordered table-responsive"
+            style="
+              transform: translateY(-20px);
+              color: black;
+              border: 1px solid black;
+              width: 730px;
+            "
+          >
+            <tr class="text-center">
+              <th style="text-align: left">From : {{consignment.source}}</th>
+              <th style="text-align: left">To : {{consignment.destination}}</th>
+              <th style="text-align: left">Truck No : {{consignment.truck.truck_number}}</th>
+            </tr>
+          </table> {% endcomment %}
+
+          <table
+            id="items"
+            class="table table-condensed table-bordered table-responsive"
+            style="
+              transform: translateY(-20px);
+              color: black;
+              border: 1px solid black;
+              width: 730px;
+            "
+          >
+    
+              <tr class ="hideextra" style:"font-size:13px; font-weight:900; text-align:left;">
+              <td colspan="6">
+
+                <h5>T. No. <b style="text-decoration: underline dotted;; letter-spacing: 0.5px">{{trip.truck.truck_number}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                From . <b style="text-decoration: underline dotted; letter-spacing: 0.5px">{{trip.source}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 To : <b style="text-decoration: underline dotted;">{{trip.destination}}</b><br><br>
+                  Material : <b style="text-decoration: underline dotted"> {{trip.goods}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Rate : <b style="text-decoration: underline dotted">{{trip.rate}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Weight : <b style="text-decoration: underline dotted">{{trip.weight}}</b>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Guarantee : <b style="text-decoration: underline dotted">{{trip.guarantee}}</b><br /><br />
+                  Owner Name : <b style="text-decoration: underline dotted">{{trip.trucker.name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Driver Name : <b style="text-decoration: underline dotted">{{trip.driver_name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Mobile Number : <b style="text-decoration: underline dotted">{{trip.contact_number}}</b><br /><br />
+                  Owner Address : <b style="text-decoration: underline dotted">{{trip.owner_address}}</b>
+                  <h5>
+                <p>&nbsp;</p>
+                {% comment %} for
+                    <h5>Expenses <b style="text-decoration: underline dotted;; letter-spacing: 0.5px"></b><br><br>
+                Bilty . <b style="text-decoration: underline dotted; letter-spacing: 0.5px">RKl</b><br><br>
+                 Loading : <b style="text-decoration: underline dotted;">Raigarh</b><br><br><br>
+                  Guard : <b style="text-decoration: underline dotted"> Sponge Iron</b><br><br>
+                  Cash Paid To Driver : <b style="text-decoration: underline dotted">200</b><br><br><br>
+                  <b style="font-weight: 900">PAN Card. Received</b><br><br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-weight: 900; text-decoration: underline">BALANCE CHALLAN PAID </b><br><br>
+                   T No. : <b style="text-decoration: underline dotted">200</b><br><br><br>
+                 
+                  <h5> {% endcomment %}
+               
+              </td>
+              </tr>
+
+            <tr class="hideextra" style="text-align: right">
+              <td colspan="3">
+                <b style="font-size: 14px">Total Freight (₹)</b>
+              </td>
+
+              <td colspan="3">
+                <b>{{trip.freight}}</b>
+              </td>
+            </tr>
+            {% for t in transactions%}
+            <tr class="hideextra" style="text-align: right">
+              <td colspan="3">
+                <b style="font-size: 14px">{{t.transaction.mode.name}}</b>
+              </td>
+
+              <td colspan="3">
+                <b>{{t.transaction.value}}</b>
+              </td>
+            </tr>
+            {% endfor %}
+            <tr class="hideextra" style="text-align: right">
+              <td colspan="3">
+                <b style="font-size: 14px">{{trip.remaining_payment_type}}(₹)</b>
+              </td>
+
+              <td colspan="3">
+                <b>{{trip.remaining_payment}}</b>
+              </td>
+            </tr>
+
+            {% comment %} <tr class ="hideextra" style:"font-size:13px; font-weight:900; text-align:left;">
+              <td colspan="6">
+
+                <h5>E Way Bill No. <b style="text-decoration: underline dotted;; letter-spacing: 0.5px"></b></h5>
+                <h5>Invoice No. <b style="text-decoration: underline dotted; letter-spacing: 0.5px"></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Value : <b style="text-decoration: underline dotted;"></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : <b style="text-decoration: underline dotted"> </b><h5>
+                <h5>&nbsp;</h5>
+                <p>
+                    Our Bank: AXIS BANK LTD.<br />
+
+                    Account Number : 918020015662314
+                    <br />IFSC Code: UTIB0001067
+                  </p>
+              </td>
+              </tr>
+
+            <tr class ="hideextra" style:"font-size:13px; font-weight:900;">
+              <td colspan="5" style="text-align:right">
+                <h5>Signature of Booking Clerk</h5>
+
+              </td>
+            </tr> {% endcomment %}
+               <tr class ="hideextra" style:"font-size:13px; font-weight:900;">
+                 <td colspan="3" style="text-align:left">
+                <h5>Signature of Owner/Driver</h5>
+
+              </td>
+              <td colspan="3" style="text-align:right">
+                <h5>for Office Clerk</h5>
+
+              </td>
+            </tr>
+          </table>
+
+
+        </aside>
+        <button
+          type="button"
+          class="btn btn-default"
+          id="printPageButton"
+          onclick="window.print()"
+        >
+          Print
+        </button>
+      </section>
+    </main>
+
+    <script src="{% static 'assets/jss/jquery-1.3.2.min.js' %} "></script>
+
+  </body>
+</html>

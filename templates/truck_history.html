@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>RANCHI HANDLOOM</title>
+    <!-- core:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}"
+    />
+
+    <link rel="stylesheet" href="{% static 'assets/css/demo_2/style.css' %}" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" />
+    <style>
+      .clickedBtn {
+        background: rgb(0, 0, 0);
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+        <div class="main-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      {% include 'includes/nav.html' %}
+      <div class="page-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar">
+          <a href="#" class="sidebar-toggler">
+            <i data-feather="menu"></i>
+          </a>
+          <div class="navbar-content"></div>
+        </nav>
+        <!-- partial -->
+
+        <div class="page-content">
+          <!-- 	<nav class="page-breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#">Tables</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Data Table</li>
+					</ol>
+				</nav> -->
+
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Truck History</h6>
+                  {% comment %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <p>
+                      From &nbsp; <input type="date" name="from" /> &nbsp;To
+                      <input type="date" name="to" />
+                      &nbsp;LR
+                      <input
+                        type="text"
+                        name="lr"
+                        placeholder="Search LR number"
+                        list="lrs"
+                      />
+                      <datalist id="lrs">
+                        {% for l in lrs %}
+                        <option value="{{l.number}}">{{l.number}}</option>
+                        {% endfor %}
+                      </datalist>
+                      &nbsp;Party
+                      <input
+                        type="text"
+                        name="party"
+                        placeholder="Search party"
+                        list="parties"
+                      />
+                      <datalist id="parties">
+                        {% for p in parties %}
+                        <option value="{{p.name}}">{{p.name}}</option>
+                        {% endfor %}
+                      </datalist>
+                      <button type="submit">Search</button>
+                    </p>
+                  </form>
+                  {% endcomment %}
+                  <h4>Truck Number : {{ truck.truck_number }}</h4>
+                  {% comment %} <input
+                      type="search"
+                      id="myInput"
+                      onkeyup="myFunction()"
+                      placeholder="Search"
+                      class="form-control"
+                    /> {% endcomment %}
+                  <br />
+                  {% comment %}
+                  <a href="{% url 'csv-report-sale' %}" class="btn btn-primary">
+                    Download Excel Sheet
+                  </a>
+                  {% endcomment %}
+                  <br />
+                  <h5
+                    class="clickedBtn"
+                    style="
+                      padding: 12px;
+                      display: inline-block;
+                      cursor: pointer;
+                    "
+                    id="saleBtn"
+                  >
+                    Trip
+                  </h5>
+
+                  <h5
+                    style="
+                      padding: 12px;
+                      display: inline-block;
+                      cursor: pointer;
+                    "
+                    id="purchaseBtn"
+                  >
+                    Consignment
+                  </h5>
+                  <hr />
+                  <div
+                    style="display: none"
+                    id="purchase-history"
+                    class="table-responsive"
+                  >
+                    
+                    <table id="myTable" class="table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Consignor</th>
+                          <th>Consignee</th>
+                          <th>Freight</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for consignment in consignments %}
+                        <tr>
+                          <td>{{ consignment.date|date:"d/m/Y" }}</td>
+                          <td>{{ consignment.consignor.name }}</td>
+                          <td>{{ consignment.consignee.name }}</td>
+                          <td>{{ consignment.freight }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="sale-history" class="table-responsive">
+                   
+                    <table id="myTable" class="table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>From</th>
+                          <th>To</th>
+                          <th>Freight</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for trip in trips %}
+                        <tr>
+                          <td>{{ trip.date|date:"d/m/Y" }}</td>
+                          <td>{{ trip.source }}</td>
+                          <td>{{ trip.destination }}</td>
+                          <td>{{ trip.freight}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- partial:../../partials/_footer.html -->
+        <footer
+          class="
+            footer
+            d-flex
+            flex-column flex-md-row
+            align-items-center
+            justify-content-between
+          "
+        >
+          <p class="text-muted text-center text-md-left">
+            © 2021 RANCHI HANDLOOM. All rights reserved
+          </p>
+        </footer>
+        <!-- partial -->
+      </div>
+    </div>
+    <script src="{% static 'assets/vendors/core/core.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+    <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
+    <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/js/template.js' %}"></script>
+  </body>
+</html>
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, cell, i, j;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 1; i < tr.length; i++) {
+      // Hide the row initially.
+      tr[i].style.display = "none";
+
+      td = tr[i].getElementsByTagName("td");
+      for (var j = 0; j < td.length; j++) {
+        cell = tr[i].getElementsByTagName("td")[j];
+        if (cell) {
+          if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+            break;
+          }
+        }
+      }
+    }
+  }
+</script>
+<script>
+  const saleBtn = document.getElementById("saleBtn");
+  const purchaseBtn = document.getElementById("purchaseBtn");
+  const saleHist = document.getElementById("sale-history");
+  const purchaseHist = document.getElementById("purchase-history");
+
+  saleBtn.addEventListener("click", () => {
+    saleBtn.classList.add("clickedBtn");
+    purchaseBtn.classList.remove("clickedBtn");
+    purchaseHist.style.display = "none";
+    saleHist.style.display = "block";
+  });
+
+  purchaseBtn.addEventListener("click", () => {
+    purchaseBtn.classList.add("clickedBtn");
+    saleBtn.classList.remove("clickedBtn");
+    saleHist.style.display = "none";
+    purchaseHist.style.display = "block";
+  });
+</script>

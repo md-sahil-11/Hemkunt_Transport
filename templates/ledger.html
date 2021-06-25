@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hemkunt Transport</title>
+  <!-- core:css -->
+  <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}">
+
+  <link rel="stylesheet" href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'assets/css/demo_2/style.css' %}">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+
+</head>
+
+<body>
+  <div class="main-wrapper">
+
+    <!-- partial:../../partials/_sidebar.html -->
+    {% include 'includes/nav.html' %}
+
+    <div class="page-wrapper">
+
+      <!-- partial:../../partials/_navbar.html -->
+      <nav class="navbar">
+        <a href="#" class="sidebar-toggler">
+          <i data-feather="menu"></i>
+        </a>
+        <div class="navbar-content">
+        </div>
+      </nav>
+			<!-- partial -->
+
+			<div class="page-content">
+
+			<!-- 	<nav class="page-breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#">Tables</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Data Table</li>
+					</ol>
+				</nav> -->
+
+				<div class="row">
+					<div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="card-title">Ledger</h6>
+
+                <div class="table-responsive">
+                  <table id="dataTableExample" class="table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Mode</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Comment</th>
+                        <th>Running Balance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for t in transactions %}
+                        <tr>
+                          <td>{{t.date|date:"d/m/Y"}}</td>
+                          <td>{{t.mode.name}}</td>
+                          {% if t.value < 0 %}
+                          <td style="color: red;">
+                            ₹ {{ t.value|floatformat:2|slice:"1:" }}
+                          {% else %}
+                          <td>
+                          --
+                          {% endif %}
+                          </td>
+                          {% if t.value > 0 %}
+                          <td style="color: green;">
+                            ₹ {{ t.value|floatformat:2 }}
+                          {% else %}
+                          <td>
+                          --
+                          {% endif %}
+                          <td>{{t.comment}}</td>
+                          <td>{{t.running_balance}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- partial:../../partials/_footer.html -->
+			<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
+				<p class="text-muted text-center text-md-left">Copyright © 2021 <a href="#" target="_blank">Hemkunt Transport</a>. All rights reserved</p>
+				<p class="text-muted text-center text-md-left mb-0 d-none d-md-block">Handcrafted With <i class="mb-1 text-primary ml-1 icon-small" data-feather="heart"></i></p>
+			</footer>
+			<!-- partial -->
+
+		</div>
+	</div>
+<script src="{% static 'assets/vendors/core/core.js' %}"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+  <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
+  <!-- <script src="{% static 'assets/js/permit.js' %}"></script> -->
+  <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
+  <script src="{% static 'assets/js/template.js' %}"></script>
+</body>
+</html>
