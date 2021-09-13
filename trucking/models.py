@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
@@ -18,9 +17,21 @@ class Consignment(models.Model):
     date = models.DateField(default=datetime.now)
     source = models.CharField(max_length=200)
     destination = models.CharField(max_length=200)
-    consignor = models.ForeignKey(Party, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='consignor')
-    consignee = models.ForeignKey(Party, on_delete=models.DO_NOTHING,  null=True, blank=True, related_name='consignee')
-    truck = models.ForeignKey(Truck, on_delete=models.DO_NOTHING, null=True, blank=True)
+    consignor = models.ForeignKey(
+        Party,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="consignor",
+    )
+    consignee = models.ForeignKey(
+        Party,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="consignee",
+    )
+    truck = models.ForeignKey(Truck, on_delete=models.CASCADE, null=True, blank=True)
     goods = models.TextField(null=True, blank=True)
     e_way_bill = models.CharField(max_length=100, null=True, blank=True)
     weight = models.FloatField(default=0.0)
@@ -34,13 +45,17 @@ class Consignment(models.Model):
     goods_value = models.FloatField(default=0.0)
     comment = models.TextField(null=True, blank=True)
     nhrt_no = models.CharField(max_length=50, null=True, blank=True)
+    invoice_no = models.CharField(max_length=50, null=True, blank=True)
     discount = models.FloatField(default=0.0)
-    status = models.BooleanField(default=False)
+    consignor_pay = models.FloatField(default=0.0, null=True, blank=True)
+    consignee_pay = models.FloatField(default=0.0, null=True, blank=True)
 
 
 class Trip(models.Model):
-    truck = models.ForeignKey(Truck, on_delete=models.DO_NOTHING)
-    consignment = models.ForeignKey(Consignment, on_delete=models.DO_NOTHING, null=True, blank=True)
+    truck = models.ForeignKey(Truck, on_delete=models.CASCADE)
+    consignment = models.ForeignKey(
+        Consignment, on_delete=models.CASCADE, null=True, blank=True
+    )
     goods = models.CharField(max_length=200, null=True, blank=True)
     source = models.CharField(max_length=200, null=True, blank=True)
     destination = models.CharField(max_length=200, null=True, blank=True)
@@ -54,11 +69,13 @@ class Trip(models.Model):
     remaining_payment = models.FloatField(default=0.0)
     guarantee = models.TextField(null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
-    trucker = models.ForeignKey(Party, on_delete=models.DO_NOTHING, null=True, blank=True)
+    trucker = models.ForeignKey(
+        Party, on_delete=models.CASCADE, null=True, blank=True
+    )
     date = models.DateField(default=datetime.now)
-    date_end = models.DateField(default=datetime.now)
-    status = models.BooleanField(default=False)
-    loss = models.FloatField(default=0.0)
+    party = models.CharField(max_length=100, null=True, blank=True)
+    completed = models.BooleanField(default=False)
+    end_date = models.DateField(null=True, blank=True)
 
 
 class TripTransaction(models.Model):
@@ -66,79 +83,31 @@ class TripTransaction(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
 
 
-class Diesel(models.Model):
-    company = models.CharField(max_length=100, null=True, blank=True)
-    value = models.FloatField(default=0.0, null=True, blank=True)
-    status = models.BooleanField(default=False)
-
 
 @receiver(post_save, sender=Consignment)
-def create_transactions(sender, instance, created, **kwargs):
+def create_consignment_transactions(sender, instance, created, **kwargs):
+    from trucking.services import ConsignmentWrapper
     if created:
-        mode, _ = TransactionMode.objects.get_or_create(name="CONSIGNMENT FREIGHT COST")
-        t = Transaction(
-            mode=mode,
-            value=(-1) * float(instance.freight),
-            date=instance.date,
-            party=instance.consignor,
-            comment="Consignment ID-" + str(instance.id),
-        )
-        t.save()
-
-        if float(instance.advance) > 0:
-            mode, _ = TransactionMode.objects.get_or_create(name=instance.advance_mode)
-            t = Transaction(
-                mode=mode,
-                value=float(instance.advance),
-                date=instance.date,
-                party=instance.consignor,
-                comment="Consignment ID-" + str(instance.id),
-            )
-            t.save()
+        obj = ConsignmentWrapper()
+        obj.add_transactions(instance)
 
 
 @receiver(post_delete, sender=Consignment)
-def delete_transaction(sender, instance, **kwargs):
-    mode, _ = TransactionMode.objects.get_or_create(name="CONSIGNMENT")
-    Transaction.objects.filter(
-        mode=mode,
-        value=(-1) * float(instance.freight),
-        date=instance.date,
-        party=instance.consignor,
-        comment="Consignment ID-" + str(instance.id),
-    ).delete()
-
-    mode, _ = TransactionMode.objects.get_or_create(name="CONSIGNMENT ADVANCE")
-    Transaction.objects.filter(
-        mode=mode,
-        value=float(instance.advance),
-        date=instance.date,
-        party=instance.consignor,
-        comment="Consignment ID-" + str(instance.id),
-    ).delete()
+def delete_consignment_transactions(sender, instance, **kwargs):
+    from trucking.services import ConsignmentWrapper
+    obj = ConsignmentWrapper()
+    obj.delete_transactions(instance.id)
 
 
 @receiver(post_save, sender=Trip)
 def create_trip_transaction(sender, instance, created, **kwargs):
+    from trucking.services import TripWrapper
     if created:
-        mode, _ = TransactionMode.objects.get_or_create(name="TRIP FREIGHT COST")
-        t = Transaction(
-            mode=mode,
-            value=float(instance.freight),
-            date=instance.date,
-            party=instance.trucker,
-            comment="Trip ID-" + str(instance.id),
-        )
-        t.save()
-
+        obj = TripWrapper()
+        obj.add_transactions(instance)
 
 @receiver(post_delete, sender=Trip)
 def delete_trip_transaction(sender, instance, **kwargs):
-    mode, _ = TransactionMode.objects.get_or_create(name="TRIP FREIGHT COST")
-    Transaction.objects.filter(
-        mode=mode,
-        value=float(instance.freight),
-        date=instance.date,
-        party=instance.trucker,
-        comment="Trip ID-" + str(instance.id),
-    ).delete()
+    from trucking.services import TripWrapper
+    obj = TripWrapper()
+    obj.delete_transactions(instance)

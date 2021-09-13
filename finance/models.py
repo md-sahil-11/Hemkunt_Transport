@@ -27,6 +27,8 @@ class Party(models.Model):
     state_code = models.IntegerField(default=21)
     party_type = models.CharField(max_length=30, choices=PARTY_CHOICES, default="CONSIGNOR")
     balance = models.FloatField(default=0.0)
+    phone = models.CharField(max_length=30, null=True, blank=True)
+    pan = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -53,11 +55,19 @@ def calculate_balance(party):
 @receiver(post_save, sender=Transaction)
 def increase_balance(sender, instance, created, **kwargs):
     if created:
-        instance.party.balance = calculate_balance(instance.party)
-        instance.party.save()
+        try:
+            instance.party.balance = calculate_balance(instance.party)
+            instance.party.save()
+        except:
+            # ! Incase of party does not exist
+            pass
 
 
 @receiver(post_delete, sender=Transaction)
 def decrease_balance(sender, instance, **kwargs):
-    instance.party.balance = calculate_balance(instance.party)
-    instance.party.save()
+    try:
+        instance.party.balance = calculate_balance(instance.party)
+        instance.party.save()
+    except:
+        # ! Incase of party does not exist
+        pass

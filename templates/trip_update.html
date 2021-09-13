@@ -71,6 +71,7 @@
                         <div class="form-group">
                           <label class="control-label">Party</label><br />
                           <input
+                          value="{{trip.party}}"
                             type="text"
                             name="party"
                             class="form-control"
@@ -118,7 +119,7 @@
                             required
                             readonly
                             style="font-size: 18px; font-weight: bold"
-                            list='consignments'
+                            {% comment %} list='consignments' {% endcomment %}
                           />
                         </div>
                       </div>
@@ -127,7 +128,7 @@
                           <label class="control-label">Truck</label
                           ><br />
                           <input
-                          value="{{ consignment.truck }}"
+                          value="{{ trip.truck }}"
                             type="text"
                             name="truck"
                             autocomplete="off"
@@ -191,7 +192,7 @@
                       <datalist id="truckers">
                         {% for t in truckers %}
                           <option value="{{ t.name }}">
-                          {{t.name}} : {{t.address}}
+                            {{t.name}} : {{t.address}}
                           </option>
                         {% endfor %}
                       </datalist>
@@ -256,6 +257,7 @@
                           <label class="control-label">Guarantee</label
                           ><br />
                           <input
+                          value="{{ trip.guarantee }}"
                             type="text"
                             name="guarantee"
                             class="form-control"
@@ -270,6 +272,7 @@
                           <label class="control-label">Driver Name</label
                           ><br />
                           <input
+                          value="{{ trip.driver_name }}"
                             type="text"
                             name="driver_name"
                             class="form-control"
@@ -285,6 +288,7 @@
                             >Mobile No.</label
                           ><br />
                           <input
+                          value="{{ trip.contact_number }}"
                             type="text"
                             name="contact_number"
                             class="form-control"
@@ -353,6 +357,7 @@
                                 type="text"
                                 name="expense_comment"
                                 v-model="n.comment"
+
                                 class="form-control"
                                 style="font-size: 18px;"
                               />
@@ -376,7 +381,6 @@
                       </tr>
                     </table>
 
-
                     <div class="row">
                       <div class="col-sm-2">
                         <div class="form-group">
@@ -392,7 +396,39 @@
                     </div>
 
                     <hr />
-
+                    {% comment %} <h5>Fuel</h5>
+                    <br>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">Diesel Brand</label
+                          ><br />
+                          <input
+                          value="{{ diesel.company }}"
+                            type="text"
+                            name="diesel_brand"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">Value</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="diesel_value"
+                            v-model="diesel"
+                            @change="calculate_freight()"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                    </div> {% endcomment %}
 
                     <div class="row">
                       <div class="col-sm-4">
@@ -574,7 +610,20 @@
                         </div>
                       </div>
                     </div> -->
-
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="control-label">End of Trip</label><br />
+                          <input
+                            type="date"
+                            name="end_date"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                            value = "{{trip.end_date}}"
+                          />
+                        </div>
+                      </div>
+                    </div>
                     <div class="row">
                       <div class="col-sm-8">
                         <div class="form-group">
@@ -582,6 +631,7 @@
                           <input
                             type="text"
                             name="comment"
+                            value = "{{trip.comment}}"
                             class="form-control"
                             style="font-size: 18px; font-weight: bold"
                           />
@@ -594,7 +644,7 @@
                         class="btn btn-success submit"
                         style="float: right"
                       >
-                        Start Trip
+                        Update Trip
                       </button>
                     </div>
                   </form>
@@ -630,7 +680,7 @@
     <script src="{% static 'assets/vendors/Vue/vue.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
-    <script src="{% static 'assets/js/trip.js' %}"></script>
+    <script src="{% static 'assets/js/tripUpdate.js' %}"></script>
     <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
     <script src="{% static 'assets/js/template.js' %}"></script>
   </body>

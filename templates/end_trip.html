@@ -1,85 +1,70 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Hemkunt Transport</title>
-    <!-- core:css -->
-    <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
 
-    <link
-      rel="stylesheet"
-      href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>GOLDEN MAHARASHTRA ROADWAYS</title>
+  <!-- core:css -->
+  <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
 
-    <link rel="stylesheet" href="{% static 'assets/css/demo_2/style.css' %}" />
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
-    <style>
-      [v-cloak] {
-        display: none;
-      }
-    </style>
-  </head>
+  <link rel="stylesheet" href="{% static 'assets/fonts/feather-font/css/iconfont.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/vendors/flag-icon-css/css/flag-icon.min.css' %}" />
 
-  <body>
-    <div class="main-wrapper">
-      <!-- partial:../../partials/_sidebar.html -->
-      {% include 'includes/nav.html' %}
-      <div class="page-wrapper">
-        <!-- partial:../../partials/_navbar.html -->
-        <nav class="navbar">
-          <a href="#" class="sidebar-toggler">
-            <i data-feather="menu"></i>
-          </a>
-          <div class="navbar-content"></div>
-        </nav>
-        <!-- partial -->
+  <link rel="stylesheet" href="{% static 'assets/css/demo_2/style.css' %}" />
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
 
-        <div class="page-content" id="trip">
-          <div class="row">
-            <div class="col-md-12 stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">End Trip</h6>
-                  <form method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Date</label><br />
-                          <input
-                            type="date"
-                            name="date_end"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
+<body>
+  <div class="main-wrapper">
+    <!-- partial:../../partials/_sidebar.html -->
+    {% include 'includes/nav.html' %}
+    <div class="page-wrapper">
+      <!-- partial:../../partials/_navbar.html -->
+      <nav class="navbar">
+        <a href="#" class="sidebar-toggler">
+          <i data-feather="menu"></i>
+        </a>
+        <div class="navbar-content"></div>
+      </nav>
+      <!-- partial -->
+
+      <div class="page-content" id="trip">
+        <div class="row">
+          <div class="col-md-12 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="card-title">End Trip</h6>
+                <form method="POST">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label class="control-label">Date</label><br />
+                        <input type="date" name="date_end" class="form-control" required
+                          style="font-size: 18px; font-weight: bold" value="{% now "Y-m-d" %}" />
                       </div>
                     </div>
-                    <div class="row">
-                      {% comment %}
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Invoice NO </label><br />
-                          <input
-                            type="text"
-                            name="invoice_no"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
+                  </div>
+                  <div class="row">
+                    {% comment %}
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label class="control-label">Invoice NO </label><br />
+                        <input type="text" name="invoice_no" class="form-control" required
+                          style="font-size: 18px; font-weight: bold" />
                       </div>
-                      {% endcomment %}
-                      <!-- <div class="col-sm-3">
+                    </div>
+                    {% endcomment %}
+                    <!-- <div class="col-sm-3">
                         <div class="form-group">
                           <label class="control-label">Date</label><br />
                           <input
@@ -91,187 +76,44 @@
                           />
                         </div>
                       </div> -->
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Consignment</label><br />
-                          <input
-                          value={{ consignment.id }}
-                            type="text"
-                            name="consignment"
-                            class="form-control"
-                            required
-                            readonly
-                            style="font-size: 18px; font-weight: bold"
-                            list='consignments'
-                          />
-                        </div>
-                      </div>
-                      <div class="col-sm-2">
-                        <div class="form-group">
-                          <label class="control-label">Truck</label
-                          ><br />
-                          <input
-                          value={{ consignment.truck }}
-                            type="text"
-                            name="truck"
-                            autocomplete="off"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                            list='trucks'
-                          />
-                        </div>
-                      </div>
-                      <datalist id="trucks">
-                        {% for t in trucks %}
-                          <option value="{{t.truck_number}}"></option>
-                        {% endfor %}
-                        </datalist>
-                      <div class="col-sm-2">
-                        <div class="form-group">
-                          <label class="control-label">FROM</label><br />
-                          <input
-                          value={{ consignment.source }}
-                            type="text"
-                            name="source"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-sm-2">
-                        <div class="form-group">
-                          <label class="control-label">TO</label><br />
-                          <input
-                          value={{ consignment.destination }}
-                            type="text"
-                            name="destination"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label class="control-label">Consignment</label><br />
+                        <input value="{{ consignment.id }}" type="text" name="consignment" class="form-control" required
+                          readonly style="font-size: 18px; font-weight: bold" list='consignments' />
                       </div>
                     </div>
-
-                    <hr />
-                    {% comment %} <div class="row">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Trucker GSTIN</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="trucker_gstin"
-                            v-model="trucker_gstin"
-                            @change="get_trucker()"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                            list="truckers"
-                          />
-                        </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label class="control-label">Truck</label><br />
+                        <input value="{{ consignment.truck }}" type="text" readonly name="truck" autocomplete="off"
+                          class="form-control" style="font-size: 18px; font-weight: bold" />
                       </div>
-                      <datalist id="truckers">
-                        {% for t in truckers %}
-                          <option value={{ t.gstin }}>
-                          {{t.name}} : {{t.address}}
-                          </option>
-                        {% endfor %}
-                      </datalist>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Trucker Name</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="trucker_name"
-                            v-model="trucker_name"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Trucker's Address</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="trucker_address"
-                            v-model="trucker_address"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-
                     </div>
-                    <hr> {% endcomment %}
-                    {% comment %} <div class="row">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Goods Description</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="goods"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label class="control-label">FROM</label><br />
+                        <input value="{{ consignment.source }}" type="text" name="source" readonly class="form-control"
+                          required style="font-size: 18px; font-weight: bold" />
                       </div>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Guarantee</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="guarantee"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label class="control-label">TO</label><br />
+                        <input value="{{ consignment.destination }}" type="text" name="destination" readonly
+                          class="form-control" required style="font-size: 18px; font-weight: bold" />
                       </div>
+                    </div>
+                  </div>
 
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Driver Name</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="driver_name"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label"
-                            >Mobile No.</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="contact_number"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                    </div> {% endcomment %}
-                    {% comment %} <hr /> {% endcomment %}
-                    {% comment %} <h5>Expense(s)</h5><br>
+                  <hr />
+                  <h5>Deduction(s)</h5><br>
                     <table>
                       <tr>
                         <th>Sl.</th>
                         <th>Payment Mode</th>
                         <th>Value</th>
+                        <th>Comment</th>
                       </tr>
                       <tr v-for="(n,i) in expenses">
                         <div class="row">
@@ -283,7 +125,7 @@
                                 class="btn btn-black btn-icon"
                                 v-cloak
                               >
-                                [[i+1]].
+                                {{i+1}}.
                               </button>
                               {% endverbatim %}
                             </div>
@@ -303,7 +145,7 @@
                             </div>
                             <datalist id='modes'>
                               {% for mode in modes %}
-                                <option value={{ mode }}></option>
+                                <option value="{{ mode }}"></option>
                               {% endfor %}
                             </datalist>
                           </td>
@@ -314,6 +156,17 @@
                                 name="value"
                                 v-model="n.value"
                                 @change='calculate_freight()'
+                                class="form-control"
+                                style="font-size: 18px;"
+                              />
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group">
+                              <input
+                                type="text"
+                                name="expense_comment"
+                                v-model="n.comment"
                                 class="form-control"
                                 style="font-size: 18px;"
                               />
@@ -335,8 +188,9 @@
                         </div>
                         <!-- Row -->
                       </tr>
-                    </table> {% endcomment %}
-                    {% comment %} <div class="row">
+                    </table>
+
+                    <div class="row">
                       <div class="col-sm-2">
                         <div class="form-group">
                           <!-- <label class="control-label">&nbsp;</label><br /> -->
@@ -348,128 +202,74 @@
                           </button>
                         </div>
                       </div>
-                    </div> {% endcomment %}
+                    </div>
 
-                    {% comment %} <hr /> {% endcomment %}
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label class="control-label">Rate</label
-                          ><br />
-                          <input
-                          value={{ trip.rate }}
-                            type="text"
-                            name="rate"
-                            v-model="rate"
-                            @change="calculate_freight()"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label class="control-label">Weight Sent</label
-                          ><br />
-                          <input
-                          value={{ trip.weight }}
-                            type="text"
-                            name="weight"
-                            v-model="weight"
-                            @change="calculate_freight()"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                      
-                      
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                              <label class="control-label">Weight Received</label
-                              ><br />
-                              <input
-                                type="text"
-                                name="weight_received"
-                                v-model="weight"
-                                @change="calculate_freight()"
-                                class="form-control"
-                                required
-                                style="font-size: 18px; font-weight: bold; border: 2px solid red"
-                              />
-                            </div>
-                          </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                              <label class="control-label">Freight</label><br />
-                              <input
-                              value={{ trip.freight }}
-                                type="text"
-                                name="freight"
-                                v-model="freight"
-                                @change="calculate_freight()"
-                                class="form-control"
-                                style="font-size: 18px; font-weight: bold"
-                              />
-                            </div>
-                          </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                              <label class="control-label">Amount Deduction</label><br />
-                              <input
-                              value=0.0
-                              readonly
-                                type="text"
-                                name="loss"
-                                v-model="loss"
-                                @change="calculate_freight()"
-                                class="form-control"
-                                style="font-size: 18px; font-weight: bold"
-                              />
-                            </div>
-                          </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label>Bill Type</label><br />
-                          <select
-                          value={{ trip.remaining_payment_type }}
-                            class="js-example-basic-single w-100"
-                            data-width="100%"
-                            style="font-size: 18px; font-weight: bold"
-                            name="remaining_payment_type"
-                          >
-                            <option value="To Pay">To Pay</option>
-                            <option value="To Be Billed">To Be Billed</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Remaining Amount</label
-                          ><br />
-                          <input
-                          value={{ trip.remaining_payment }}
-                            type="text"
-                            name="remaining_payment"
-                            v-model="remaining_payment"
-                            readonly
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
+                    <hr>
+
+                  {% comment %}
+                  <hr /> {% endcomment %}
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label class="control-label">Rate</label><br />
+                        <input value="{{ trip.rate }}" type="text" name="rate" readonly class="form-control" required
+                          style="font-size: 18px; font-weight: bold" />
                       </div>
                     </div>
-                    <!-- <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label class="control-label">Weight(MT)</label><br />
+                        <input value="{{ trip.weight }}" type="text" name="weight" readonly class="form-control"
+                          required style="font-size: 18px; font-weight: bold" />
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label class="control-label">Freight</label><br />
+                        <input value="{{ trip.freight }}" type="text" name="freight" readonly class="form-control"
+                          style="font-size: 18px; font-weight: bold" />
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Bill Type</label><br />
+                        <select value={{ trip.remaining_payment_type }} class="js-example-basic-single w-100"
+                          data-width="100%" style="font-size: 18px; font-weight: bold" name="remaining_payment_type">
+                          <option value="To Pay">To Pay</option>
+                          <option value="To Be Billed">To Be Billed</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label class="control-label">Remaining Amount</label><br />
+                        <input value={{ trip.remaining_payment }} type="text" name="remaining_payment"
+                          v-model="remaining_payment" readonly class="form-control"
+                          style="font-size: 18px; font-weight: bold" />
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="control-label">Amount Deduction</label><br />
+                        <input value=0.0 type="text" name="amount_lost" class="form-control"
+                          style="font-size: 18px; font-weight: bold" />
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="control-label">Weight Lost</label><br />
+                        <input value="0" type="text" name="weight_lost" class="form-control" required
+                          style="font-size: 18px; font-weight: bold; border: 2px solid red" />
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="row">
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label">Weight (MT)</label><br />
@@ -573,64 +373,54 @@
                         </div>
                       </div>
                     </div> -->
-
-                    <div class="row">
-                      <div class="col-sm-8">
-                        <div class="form-group">
-                          <label class="control-label">Comment</label><br />
-                          <input
-                            type="text"
-                            name="comment"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group">
+                        <label class="control-label">Comment</label><br />
+                        <input type="text" name="comment" class="form-control"
+                          style="font-size: 18px; font-weight: bold" />
                       </div>
                     </div>
-                    <div class="row">
-                      <button
-                        type="submit"
-                        class="btn btn-success submit"
-                        style="float: right"
-                      >
-                        End Trip
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                  <div class="row">
+                    <button type="submit" class="btn btn-success submit" style="float: right">
+                      End Trip
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- partial:../../partials/_footer.html -->
-        <footer
-          class="
+      <!-- partial:../../partials/_footer.html -->
+      <footer class="
             footer
             d-flex
             flex-column flex-md-row
             align-items-center
             justify-content-between
-          "
-        >
-          <p class="text-muted text-center text-md-left">
-            &copy; 2021 <a href=""> Hemkunt Transport</a>
-          </p>
-          <p class="text-muted text-center text-md-left mb-0 d-none d-md-block">
-            Designed & Developed By : <a href="http://strix.co.in/"> Strix</a>
-          </p>
-        </footer>
-        <!-- partial -->
-      </div>
+          ">
+        <p class="text-muted text-center text-md-left">
+          &copy; 2021 <a href=""> New Hemkunt</a>
+        </p>
+        <p class="text-muted text-center text-md-left mb-0 d-none d-md-block">
+          Designed & Developed By : <a href="http://strix.co.in/"> Strix</a>
+        </p>
+      </footer>
+      <!-- partial -->
     </div>
+  </div>
 
-    <!-- core:js -->
-    <script src="{% static 'assets/vendors/core/core.js' %}"></script>
-    <script src="{% static 'assets/vendors/Vue/vue.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
-    {% comment %} <script src="{% static 'assets/js/trip.js' %}"></script> {% endcomment %}
-    <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
-    <script src="{% static 'assets/js/template.js' %}"></script>
-  </body>
+  <!-- core:js -->
+  <script src="{% static 'assets/vendors/core/core.js' %}"></script>
+  <script src="{% static 'assets/vendors/Vue/vue.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="{% static 'assets/js/endtrip.js' %}"></script>
+  <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
+  <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
+  <script src="{% static 'assets/js/template.js' %}"></script>
+</body>
+
 </html>

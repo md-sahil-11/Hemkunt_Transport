@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>RANCHI HANDLOOM</title>
+    <title>New Hemkunt</title>
     <!-- core:css -->
     <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
 
@@ -114,7 +114,7 @@
                     "
                     id="saleBtn"
                   >
-                    Trip
+                    Trips
                   </h5>
 
                   <h5
@@ -125,7 +125,7 @@
                     "
                     id="purchaseBtn"
                   >
-                    Consignment
+                    Consignments
                   </h5>
                   <hr />
                   <div
@@ -133,7 +133,7 @@
                     id="purchase-history"
                     class="table-responsive"
                   >
-                    
+
                     <table id="myTable" class="table">
                       <thead>
                         <tr>
@@ -141,6 +141,7 @@
                           <th>Consignor</th>
                           <th>Consignee</th>
                           <th>Freight</th>
+                          <th>Info</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -150,13 +151,14 @@
                           <td>{{ consignment.consignor.name }}</td>
                           <td>{{ consignment.consignee.name }}</td>
                           <td>{{ consignment.freight }}</td>
+                          <td><a href="{% url 'consignment_info' consignment.id %}">View</a></td>
                         </tr>
                         {% endfor %}
                       </tbody>
                     </table>
                   </div>
                   <div id="sale-history" class="table-responsive">
-                   
+
                     <table id="myTable" class="table">
                       <thead>
                         <tr>
@@ -164,6 +166,7 @@
                           <th>From</th>
                           <th>To</th>
                           <th>Freight</th>
+                          <th>Info</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -173,6 +176,7 @@
                           <td>{{ trip.source }}</td>
                           <td>{{ trip.destination }}</td>
                           <td>{{ trip.freight}}</td>
+                          <th><a href="{% url 'trip_info' trip.id %}">View</a></th>
                         </tr>
                         {% endfor %}
                       </tbody>
@@ -195,7 +199,7 @@
           "
         >
           <p class="text-muted text-center text-md-left">
-            © 2021 RANCHI HANDLOOM. All rights reserved
+            © 2021 New Hemkunt. All rights reserved
           </p>
         </footer>
         <!-- partial -->

@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>HEMKUNT TRANSPORT</title>
+  <title>New Hemkunt</title>
   <!-- core:css -->
   <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
 
@@ -23,7 +23,7 @@
     <!-- partial:../../partials/_sidebar.html -->
     <nav class="sidebar">
       <div class="sidebar-header">
-        <a href="" class="sidebar-brand">HEMKUNT TRANSPORT </a>
+        <a href="" class="sidebar-brand">New Hemkunt </a>
         <div class="sidebar-toggler not-active">
           <span></span>
           <span></span>
@@ -78,26 +78,30 @@
                     <thead>
                       <tr>
                         <th>ID</th>
+                        <th>Invoice No</th>
                         <th>Date</th>
                         <th>Consignor</th>
                         <th>Consignee</th>
                         <th>Truck</th>
                         <th>Rate</th>
-                        <th>Weight</th>
+                        <th>Weight(MT)</th>
                         <th>Freight</th>
                         <th>Details</th>
                         <th>Status</th>
                         <th>Trip</th>
+                        <th></th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for consignment in consignments %}
                       <tr>
-                        <td><a href="{% url 'consignment_slip' consignment.id %}">{{consignment.id}}</a></td>
+                        <td><a href="{% url 'consignment_slip' consignment.id %}" target="_blank">{{consignment.id}}</a></td>
+                        <td>{{consignment.invoice_no}}</td>
                         <td>{{consignment.date|date:"d/m/Y" }}</td>
                         <td>{{consignment.consignor.name }}</td>
                         <td>{{consignment.consignee.name }}</td>
-                        <td>{{consignment.truck.truck_number}}</td>
+                        <td><a href="{% url 'truck_history' consignment.truck.truck_number%}">{{consignment.truck.truck_number}}</a></td>
                         <td>₹{{consignment.rate}}</td>
                         <td>{{consignment.weight}} MT</td>
                         <td style="color: green">
@@ -116,6 +120,17 @@
                           {% endif %}
                           </td>
                         <td><a href="{% url 'trip' consignment.id %}">Add</a></td>
+                        <td><a href="{% url 'consignment_update' consignment.id %}">
+                          <button class="btn btn-primary">
+                            Update
+                          </button>
+                        </a></td>
+                        <td><a href="{% url 'consignment_delete' consignment.id %}"
+                          onclick="return confirm('Are you sure you want to delete this consignment? \nClick ok to delete.')">
+                          <button class="btn btn-danger">
+                            Delete
+                          </button>
+                        </a></td>
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -130,7 +145,7 @@
       <!-- partial:../../partials/_footer.html -->
       <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
         <p class="text-muted text-center text-md-left">
-          © 2021 HEMKUNT TRANSPORT. All
+          © 2021 New Hemkunt. All
           rights reserved
         </p>
 

@@ -1,26 +1,67 @@
+from finance.services import Payment, Receipt
+from finance.models import Party, Transaction, TransactionMode
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from finance.models import Party, Transaction
 
+
+@login_required
 def ledger(request, party_id):
     party = Party.objects.get(id=party_id)
-    transactions = Transaction.objects.filter(party=party).order_by('date')
+    transactions = Transaction.objects.filter(party=party).order_by("date")
+    from_date = None
+    to_date = None
     s = 0
     for t in transactions:
-        s = s+t.value
+        s += t.value
         t.running_balance = s
-    from_date = transactions[0].date
-    to_date = transactions[transactions.count()-1].date
-    context = {"party": party, "transactions": transactions, "from_date": from_date, "to_date": to_date}
+    context = {
+        "party": party,
+        "transactions": transactions,
+        "from_date": from_date,
+        "to_date": to_date,
+    }
     return render(request, "ledger.html", context)
 
 
+def render_party_html(request, party_type):
+    parties = Party.objects.filter(party_type=party_type.upper())
+    context = {"parties": parties}
+    return render(request, "party_list.html", context)
+
+
+@login_required
 def consignors(request):
-    consignors = Party.objects.filter(party_type='CONSIGNOR')
-    context = {"parties": consignors}
-    return render(request, 'party_list.html', context)
+    return render_party_html(request, "CONSIGNOR")
 
 
+@login_required
 def truckers(request):
-    truckers = Party.objects.filter(party_type='TRUCKER')
-    context = {"parties": truckers}
-    return render(request, 'party_list.html', context)
+    return render_party_html(request, "TRUCKER")
+
+
+@login_required
+def consignees(request):
+    return render_party_html(request, "CONSIGNEE")
+
+
+def render_transaction_html(request, template_name):
+    parties = Party.objects.all()
+    modes = TransactionMode.objects.all()
+    context = {"parties": parties, "modes": modes}
+    return render(request, template_name, context=context)
+
+
+@login_required
+def payment_view(request):
+    if request.method == "POST":
+        payment = Payment(request.POST)
+        payment.create()
+    return render_transaction_html(request, "payment.html")
+
+
+@login_required
+def receipt_view(request):
+    if request.method == "POST":
+        receipt = Receipt(request.POST)
+        receipt.create()
+    return render_transaction_html(request, "receipt.html")

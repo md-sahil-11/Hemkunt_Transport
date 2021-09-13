@@ -12,13 +12,15 @@ new Vue({
       consignor_address: "",
       consignee_gstin: "",
       consignee_name: "",
-      consignee_address: "",
+      consignee_address: ""
     };
   },
   methods: {
     calculate_freight() {
       this.freight = this.rate * this.weight;
+      this.freight = this.round_of(this.freight);
       this.remaining_payment = this.freight - this.advance;
+      this.remaining_payment = this.round_of(this.remaining_payment);
     },
     get_url(gstin, party_type) {
       base_url = window.location.origin;
@@ -60,5 +62,8 @@ new Vue({
           console.log(error);
         });
     },
+    round_of(val) {
+      return Number((val).toFixed(2))
+    }
   },
 });

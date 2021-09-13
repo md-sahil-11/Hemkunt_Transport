@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Hemkunt Transport</title>
+    <title>New Hemkunt</title>
     <!-- core:css -->
     <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
 
@@ -39,59 +39,11 @@
         <!-- partial -->
 
         <div class="page-content">
-          <!-- 	<nav class="page-breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Tables</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Data Table</li>
-					</ol>
-				</nav> -->
-
           <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h6 class="card-title">{{heading}}</h6>
-                  {% comment %}
-                  <form method="POST">
-                    {% csrf_token %}
-                    <p>
-                      From &nbsp; <input type="date" name="from" /> &nbsp;To
-                      <input type="date" name="to" />
-                      &nbsp;LR
-                      <input
-                        type="text"
-                        name="lr"
-                        placeholder="Search LR number"
-                        list="lrs"
-                      />
-                      <datalist id="lrs">
-                        {% for l in lrs %}
-                        <option value="{{l.number}}">{{l.number}}</option>
-                        {% endfor %}
-                      </datalist>
-                      &nbsp;Party
-                      <input
-                        type="text"
-                        name="party"
-                        placeholder="Search party"
-                        list="parties"
-                      />
-                      <datalist id="parties">
-                        {% for p in parties %}
-                        <option value="{{p.name}}">{{p.name}}</option>
-                        {% endfor %}
-                      </datalist>
-                      <button type="submit">Search</button>
-                    </p>
-                  </form>
-                  {% endcomment %}
-                  <br />
-                  {% comment %}
-                  <a href="{% url 'csv-report-sale' %}" class="btn btn-primary">
-                    Download Excel Sheet
-                  </a>
-                  {% endcomment %}
-                  <br />
                   <div class="table-responsive">
                     <input
                       type="search"
@@ -119,7 +71,7 @@
                           <td>{{ party.gstin }}</td>
                           <td>{{ party.balance }}</td>
                           <td>
-                            <a href="{% url 'ledger' party.id %}" target="_blank">View</a>
+                            <a href="{% url 'ledger' party.id %}">View</a>
                           </td>
                           <td>
                             <a
@@ -149,7 +101,7 @@
           "
         >
           <p class="text-muted text-center text-md-left">
-            © 2021 Hemkunt Transport. All rights reserved
+            © 2021 New Hemkunt. All rights reserved
           </p>
         </footer>
         <!-- partial -->

@@ -5,6 +5,9 @@
 <head>
   <title>INVOICE</title>
   <link rel="stylesheet" href="{% static 'assets/billcss/bootstrap.min.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
   <style>
     * {
@@ -65,12 +68,23 @@
       display: table;
     }
 
+    .actions {
+      position: fixed;
+      top: 40%;
+      left: 20px;
+      transform: translate(0px, -40%);
+    }
+
     @page {
       size: A4;
     }
 
     @media print {
-      #printPageButton, #addItem, #download {
+
+      #printPageButton,
+      #addItem,
+      #download,
+      .home {
         display: none;
       }
     }
@@ -80,27 +94,29 @@
 <body>
   <main style="padding: 10px">
     <div style="margin: 16px;" id='invoice'>
-      {% comment %}
-      <p><a href="{% url 'sale' %}" id="printPageButton">Home</a></p>
-      {% endcomment %}
+
+      <p><a href="{% url 'consignment' %}" class="home">Home</a></p>
+
       <h1>&nbsp;</h1>
-      <h3 class="text-center" style="width: 280px; position: relative; top: -66px; left: 250px">
-        HEMKUNT TRANSPORT
+      <h3 style="font-family: 'Sigmar One', cursive; font-size: 42px; font-weight:900">New Hemkunt</h3>
+      <h3 class="text-center hideextra" style="width: 480px; position: relative; top: -66px; left: 150px">
+        GOLDEN MAHARASHTRA ROADWAYS
       </h3>
-  <span class='hide' id='pdf-title'>{{ consignment.id }}</span>
+      <span class='hide' id='pdf-title'>{{ consignment.id }}</span>
 
 
       <h6 class="text-center" style="transform: translateY(-65px); font-size: 14px">
         FLEET OWNER AND TRANSPORT CONTRACTOR & COMMISSION AGENTS<br />H.O :
-        Brahmani Tarang, Vedvyas, Near Gurudawara , Rourkela - 769004<br /><b
-          style="letter-spacing: 0.8px; text-decoration: underline">GSTIN: 21ANLPS9749N2Z1</b>
-        <!-- <p style="display: inline" contenteditable><b>XXXXXXXXXXX</b></p> -->
+        Brahmani Tarang, Vedvyas, Near Gurudawar, Rourkela-769004<br /><b
+          style="letter-spacing: 0.8px; text-decoration: underline">GSTIN: 21ANLPS9749N2Z1</b><br />
+        <b style="letter-spacing: 0.8px; ">Contact : 9437048969 / 9437074969</b><br /><b
+          style="letter-spacing: 0.8px;">Email : newhemkunt@gmail.com</b><br />
       </h6>
 
       <section style="transform: translateY(-70px)">
         <table class="table table-condensed table-bordered table-responsive" style="width: 730px">
           <tr>
-            <td colspan="3">No. NHRT/RKL : <b>{{consignment.nhrt_no}}</b></td>
+            <td colspan="3">Bilty No.New Hemkunt : <b>{{consignment.nhrt_no}}</b></td>
             <td colspan="3" style="text-align: right">
               DATE : <b>{{ consignment.date | date:"d/m/Y" }}</b>
             </td>
@@ -169,7 +185,7 @@
             </tr> {% endcomment %}
             <tr class="hideextra" style="text-align: right">
               <td colspan="4">
-                <b style="font-size: 14px">Weight</b>
+                <b style="font-size: 14px">Weight (MT)</b>
               </td>
 
               <td colspan="2">
@@ -178,7 +194,7 @@
             </tr>
             <tr class="hideextra" style="text-align: right">
               <td colspan="4">
-                <b style="font-size: 14px">Rate (₹)</b>
+                <b style="font-size: 14px">Rate/MT (₹)</b>
               </td>
 
               <td colspan="2">
@@ -191,7 +207,7 @@
               </td>
 
               <td colspan="2">
-                <b>{{consignment.freight}}</b>
+                <b>{{consignment.freight | floatformat:2 }}</b>
               </td>
             </tr>
             <tr class="hideextra" style="text-align: right">
@@ -200,7 +216,7 @@
               </td>
 
               <td colspan="2">
-                <b>{{consignment.advance}}</b>
+                <b>{{consignment.advance | floatformat:2 }}</b>
               </td>
             </tr>
             <tr class="hideextra" style="text-align: right">
@@ -209,7 +225,7 @@
               </td>
 
               <td colspan="2">
-                <b>{{consignment.remaining_payment}}</b>
+                <b>{{consignment.remaining_payment | floatformat:2 }}</b>
               </td>
             </tr>
 
@@ -219,23 +235,23 @@
                 <h5>E Way Bill No. <b
                     style="text-decoration: underline dotted;; letter-spacing: 0.5px">{{consignment.e_way_bill}}</b>
                 </h5>
-                <h5>Invoice No. <b
-                    style="text-decoration: underline dotted; letter-spacing: 0.5px">{{consignment.id}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h5>Consignor Invoice No. <b
+                    style="text-decoration: underline dotted; letter-spacing: 0.5px">{{consignment.invoice_no}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   Value : <b style="text-decoration: underline dotted;">{{consignment.goods_value}}</b>
-                  <h5>
-                    <h5>&nbsp;</h5>
-                    <p>
-                      Our Bank: AXIS BANK LTD.<br />
 
-                      Account Number : 918020015662314
-                      <br />IFSC Code: UTIB0001067
-                    </p>
+                  <h5>&nbsp;</h5>
+                  <p>
+                    Our Bank: AXIS BANK LTD.<br />
+                    Account No: 918020015662314<br />
+                    IFSC CODE: UTIB0001067
+                  </p>
+                  <p style="font-size: 16px;"><b>Note : {{consignment.comment}}</b></p>
               </td>
             </tr>
 
             <tr class="hideextra" style:"font-size:13px; font-weight:900;">
               <td colspan="5" style="text-align:right">
-                <h5>Signature of Booking Clerk</h5>
+                <img src="{% static 'assets/sign.jpg' %}" style="width: 200px ; height:130px" ;>
 
               </td>
             </tr>
@@ -246,32 +262,33 @@
 
       </section>
     </div>
+    <div class="actions">
+      <button type="button" class="btn btn-default" id="printPageButton" onclick="window.print()">
+        Print
+      </button>
 
-    <button type="button" class="btn btn-default" id="printPageButton" onclick="window.print()">
-      Print
-    </button>
+
+      <div id='addItem' class="d-flex align-items-center flex-wrap text-nowrap">
+        <br>
+        <a style="text-decoration: none;" href="{% url 'trip' consignment.id %}">
+          <button type="button" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
+            <i class="btn-icon-prepend" data-feather="plus"></i>
+
+            Add Trip
+          </button>
+        </a>
+      </div>
 
 
-    <div id='addItem' class="d-flex align-items-center flex-wrap text-nowrap">
-      <br>
-      <a style="text-decoration: none;" href="{% url 'trip' consignment.id %}">
-        <button type="button" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
+      <div class="d-flex align-items-center flex-wrap text-nowrap">
+        <br>
+
+        <button id="download" type="button" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
           <i class="btn-icon-prepend" data-feather="plus"></i>
 
-          Add Trip
+          Download
         </button>
-      </a>
-    </div>
-
-
-    <div class="d-flex align-items-center flex-wrap text-nowrap">
-      <br>
-
-      <button id="download" type="button" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
-        <i class="btn-icon-prepend" data-feather="plus"></i>
-
-        Download
-      </button>
+      </div>
     </div>
   </main>
 
@@ -281,7 +298,7 @@
 
 </html>
 <script>
-  
+
   document.getElementById("download")
     .addEventListener("click", () => {
       const invoice = this.document.getElementById("invoice");

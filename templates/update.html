@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>New Hemkunt</title>
+    <title>GOLDEN MAHARASHTRA ROADWAYS</title>
     <!-- core:css -->
     <link rel="stylesheet" href="{% static 'assets/vendors/core/core.css' %}" />
 
@@ -42,44 +42,14 @@
         </nav>
         <!-- partial -->
 
-        <div class="page-content" id="trip">
+        <div class="page-content" id="consignment">
           <div class="row">
             <div class="col-md-12 stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Trip</h6>
+                  <h6 class="card-title">Edit Consignment - {{ c.id }}</h6>
                   <form method="POST">
                     {% csrf_token %}
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Date</label><br />
-                          <input
-                            type="date"
-                            name="date"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                            value = "{% now "Y-m-d" %}"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Party</label><br />
-                          <input
-                            type="text"
-                            name="party"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
                     <div class="row">
                       {% comment %}
                       <div class="col-sm-3">
@@ -95,58 +65,53 @@
                         </div>
                       </div>
                       {% endcomment %}
-                      <!-- <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label">Date</label><br />
                           <input
+                          {% comment %} value="{{c.date}}" {% endcomment %}
                             type="date"
                             name="date"
                             class="form-control"
                             required
                             style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div> -->
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Consignment</label><br />
-                          <input
-                          value="{{ consignment.id }}"
-                            type="text"
-                            name="consignment"
-                            class="form-control"
-                            required
-                            readonly
-                            style="font-size: 18px; font-weight: bold"
-                            list='consignments'
+                            value = "{% now "Y-m-d" %}"
                           />
                         </div>
                       </div>
-                      <div class="col-sm-2">
+                      <div class="col-sm-4">
                         <div class="form-group">
-                          <label class="control-label">Truck</label
+                          <label class="control-label">No. New Hemkunt</label
                           ><br />
                           <input
-                          value="{{ consignment.truck }}"
+                          value="{{ c.nhrt_no }}"
                             type="text"
-                            name="truck"
+                            name="nhrt_no"
                             autocomplete="off"
                             class="form-control"
                             style="font-size: 18px; font-weight: bold"
-                            list='trucks'
                           />
                         </div>
                       </div>
-                      <datalist id="trucks">
-                        {% for t in trucks %}
-                          <option value="{{t.truck_number}}"></option>
-                        {% endfor %}
-                        </datalist>
-                      <div class="col-sm-2">
+                      <div class="col-md-4">
+                      <div class="form-group">
+                          <label class="control-label">Invoice No.</label
+                          ><br />
+                          <input
+                          value="{{ c.invoice_no }}"
+                            type="text"
+                            name="invoice_no"
+                            autocomplete="off"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label">FROM</label><br />
                           <input
-                          value="{{ consignment.source }}"
+                          value="{{ c.source }}"
                             type="text"
                             name="source"
                             class="form-control"
@@ -155,11 +120,11 @@
                           />
                         </div>
                       </div>
-                      <div class="col-sm-2">
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label">TO</label><br />
                           <input
-                          value="{{ consignment.destination }}"
+                          value="{{ c.destination }}"
                             type="text"
                             name="destination"
                             class="form-control"
@@ -168,96 +133,123 @@
                           />
                         </div>
                       </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Truck</label><br />
+                          <input
+                            value="{{c.truck}}"
+                            type="text"
+                            name="truck"
+                            class="form-control"
+                            style="font-size: 18px; font-weight: bold"
+                            list="trucks"
+                          />
+                           <datalist id="trucks">
+                          {% for t in trucks %}
+                            <option value="{{t.truck_number}} "></option>
+                          {% endfor %}
+                          </datalist>
+                        </div>
+                      </div>
                     </div>
-
                     <hr />
                     <div class="row">
-                      <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
-                          <label class="control-label">Trucker Name</label
+                          <label class="control-label">Consignor GSTIN</label
                           ><br />
                           <input
                             type="text"
-                            name="trucker_name"
-                            v-model="trucker_name"
-                            @change="get_trucker()"
+                            name="consignor_gst"
+                            class="form-control"
+                            required
+                            v-model="consignor_gstin"
+                            @change="get_consignor()"
+                            style="font-size: 18px; font-weight: bold"
+                            list="consignors"
+                          />
+                           <datalist id="consignors">
+                          {% for c in consignors %}
+                            <option value="{{c.gstin}}">{{c.name}} : {{c.address}}</option> </option>
+                          {% endfor %}
+                          </datalist>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignor Name</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignor_name"
+                            v-model="consignor_name"
                             class="form-control"
                             required
                             style="font-size: 18px; font-weight: bold"
-                            list="truckers"
                           />
                         </div>
                       </div>
-                      <datalist id="truckers">
-                        {% for t in truckers %}
-                          <option value="{{ t.name }}">
-                          {{t.name}} : {{t.address}}
-                          </option>
-                        {% endfor %}
-                      </datalist>
-                      <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
-                          <label class="control-label">Trucker GSTIN/PAN</label
+                          <label class="control-label">Consignor Address</label
                           ><br />
                           <input
                             type="text"
-                            name="trucker_gstin"
-                            v-model="trucker_gstin"
+                            name="consignor_address"
+                            v-model="consignor_address"
                             class="form-control"
+                            required
                             style="font-size: 18px; font-weight: bold"
                           />
                         </div>
                       </div>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Trucker's Address</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="trucker_address"
-                            v-model="trucker_address"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Trucker Phone</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="trucker_phone"
-                            v-model="trucker_phone"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
+
                     </div>
-                    <hr>
+                    <hr />
                     <div class="row">
-                      <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
-                          <label class="control-label">Goods Description</label
+                          <label class="control-label">Consignee GSTIN</label
                           ><br />
                           <input
                             type="text"
-                            name="goods"
+                            name="consignee_gst"
+                            v-model="consignee_gstin"
+                            @change="get_consignee()"
                             class="form-control"
-                            value="{{consignment.goods}}"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                            list="consignees"
+                          />
+                           <datalist id="consignees">
+                          {% for c in consignees %}
+                            <option value="{{c.gstin}}"> {{c.name}} : {{c.gstin}}</option>
+                          {% endfor %}
+                          </datalist>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Consignee Name</label
+                          ><br />
+                          <input
+                            type="text"
+                            name="consignee_name"
+                            v-model="consignee_name"
+                            class="form-control"
                             required
                             style="font-size: 18px; font-weight: bold"
                           />
                         </div>
                       </div>
-                      <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
-                          <label class="control-label">Guarantee</label
+                          <label class="control-label">Consignee Address</label
                           ><br />
                           <input
                             type="text"
-                            name="guarantee"
+                            name="consignee_address"
+                            v-model="consignee_address"
                             class="form-control"
                             required
                             style="font-size: 18px; font-weight: bold"
@@ -265,174 +257,43 @@
                         </div>
                       </div>
 
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Driver Name</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="driver_name"
-                            class="form-control"
-                            required
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-sm-3">
+                    </div>
+                    <hr />
+                    <div class="row">
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label"
-                            >Mobile No.</label
+                            >Description of Goods</label
                           ><br />
                           <input
+                          value="{{ c.goods }}"
                             type="text"
-                            name="contact_number"
+                            name="description"
                             class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <hr />
-                    <h5>Expense(s)</h5><br>
-                    <table>
-                      <tr>
-                        <th>Sl.</th>
-                        <th>Payment Mode</th>
-                        <th>Value</th>
-                      </tr>
-                      <tr v-for="(n,i) in expenses">
-                        <div class="row">
-                          <td>
-                            <div class="form-group">
-                              {% verbatim %}
-                              <button
-                                type="button"
-                                class="btn btn-black btn-icon"
-                                v-cloak
-                              >
-                                {{i+1}}.
-                              </button>
-                              {% endverbatim %}
-                            </div>
-                          </td>
-                          <td>
-                            <div class="form-group">
-                              <input
-                                type="text"
-                                name="mode"
-                                v-model="n.mode"
-                                class="form-control"
-                                style="
-                                  font-size: 18px;
-                                "
-                                list="modes"
-                              />
-                            </div>
-                            <datalist id='modes'>
-                              {% for mode in modes %}
-                                <option value="{{ mode }}"></option>
-                              {% endfor %}
-                            </datalist>
-                          </td>
-                          <td>
-                            <div class="form-group">
-                              <input
-                                type="text"
-                                name="value"
-                                v-model="n.value"
-                                @change='calculate_freight()'
-                                class="form-control"
-                                style="font-size: 18px;"
-                              />
-                            </div>
-                          </td>
-                          {% comment %} <td>
-                            <div class="form-group">
-                              <input
-                                type="text"
-                                name="expense_comment"
-                                v-model="n.comment"
-                                class="form-control"
-                                style="font-size: 18px;"
-                              />
-                            </div>
-                          </td> {% endcomment %}
-                          <td>
-                            <div class="form-group">
-                              <button
-                                type="button"
-                                class="btn btn-danger btn-icon"
-                                @click="removeExpenseRow(i)"
-                                style="font-size: 18px; "
-                              >
-                                <b>X</b>
-                              </button>
-                            </div>
-                          </td>
-                          <!-- </div> -->
-                        </div>
-                        <!-- Row -->
-                      </tr>
-                    </table>
-
-
-                    <div class="row">
-                      <div class="col-sm-2">
-                        <div class="form-group">
-                          <!-- <label class="control-label">&nbsp;</label><br /> -->
-                          <button
-                            type="button"
-                            class="btn btn-primary btn-icon" @click="addExpenseRow()"
-                          >
-                            <i data-feather="plus"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <hr />
-
-
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label class="control-label">Rate</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="rate"
-                            v-model="rate"
-                            @change="calculate_freight()"
-                            class="form-control"
-                            required
                             style="font-size: 18px; font-weight: bold"
                           />
                         </div>
                       </div>
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <label class="control-label">Weight(MT)</label
+                          <label class="control-label">E-Way Bill No.</label
                           ><br />
                           <input
+                          value="{{ c.e_way_bill }}"
                             type="text"
-                            name="weight"
-                            v-model="weight"
-                            @change="calculate_freight()"
+                            name="ewaybill"
                             class="form-control"
-                            required
                             style="font-size: 18px; font-weight: bold"
                           />
                         </div>
                       </div>
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <label class="control-label">Freight</label><br />
+                          <label class="control-label">Value</label><br />
                           <input
+                          value="{{c.goods_value}}"
                             type="text"
-                            name="freight"
-                            v-model="freight"
-                            @change="calculate_freight()"
+                            name="value"
                             class="form-control"
                             style="font-size: 18px; font-weight: bold"
                           />
@@ -440,37 +301,6 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label>Bill Type</label><br />
-                          <select
-                            class="js-example-basic-single w-100"
-                            data-width="100%"
-                            style="font-size: 18px; font-weight: bold"
-                            name="remaining_payment_type"
-                          >
-                            <option value="To Pay">To Pay</option>
-                            <option value="To Be Billed">To Be Billed</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label class="control-label">Remaining Amount</label
-                          ><br />
-                          <input
-                            type="text"
-                            name="remaining_payment"
-                            v-model="remaining_payment"
-                            readonly
-                            value="0"
-                            class="form-control"
-                            style="font-size: 18px; font-weight: bold"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <!-- <div class="row">
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label">Weight (MT)</label><br />
@@ -510,9 +340,39 @@
                           />
                         </div>
                       </div>
+                       <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Amount Payable by Consignor</label
+                          ><br />
+                          <input
+                          value="{{ c.consignor_pay }}"
+                            type="text"
+                            name="consignor_pay"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                            value = "0"
+                          />
+                        </div>
+                      </div>
+                       <div class="col-sm-4">
+                        <div class="form-group">
+                          <label class="control-label">Amount Payable by Consignee</label
+                          ><br />
+                          <input
+                          value="{{ c.consignee_pay }}"
+                            type="text"
+                            name="consignee_pay"
+                            class="form-control"
+                            required
+                            style="font-size: 18px; font-weight: bold"
+                            value="0"
+                          />
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
-                      <div class="col-sm-3">
+                      {% comment %} <div class="col-sm-3">
                         <div class="form-group">
                           <label class="control-label">Payment Mode</label
                           ><br />
@@ -530,8 +390,8 @@
                           {% endfor %}
                           </datalist>
                         </div>
-                      </div>
-                      <div class="col-sm-3">
+                      </div> {% endcomment %}
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label">Advance</label><br />
                           <input
@@ -544,10 +404,11 @@
                           />
                         </div>
                       </div>
-                      <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label>Bill Type</label><br />
                           <select
+                          value="{{ c.remaining_payment_type }}"
                             class="js-example-basic-single w-100"
                             data-width="100%"
                             style="font-size: 18px; font-weight: bold"
@@ -558,7 +419,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label class="control-label">Remaining Amount</label
                           ><br />
@@ -573,13 +434,14 @@
                           />
                         </div>
                       </div>
-                    </div> -->
+                    </div>
 
                     <div class="row">
                       <div class="col-sm-8">
                         <div class="form-group">
                           <label class="control-label">Comment</label><br />
                           <input
+                          value="{{ c.comment }}"
                             type="text"
                             name="comment"
                             class="form-control"
@@ -594,7 +456,7 @@
                         class="btn btn-success submit"
                         style="float: right"
                       >
-                        Start Trip
+                        Save
                       </button>
                     </div>
                   </form>
@@ -627,10 +489,11 @@
 
     <!-- core:js -->
     <script src="{% static 'assets/vendors/core/core.js' %}"></script>
-    <script src="{% static 'assets/vendors/Vue/vue.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/currency.js@~1.2.0/dist/currency.min.js"></script>
-    <script src="{% static 'assets/js/trip.js' %}"></script>
+    {% comment %} <script src="{% static 'assets/js/sale.js' %}"></script> {% endcomment %}
+    <script src="{% static 'assets/js/update.js' %}"></script>
     <script src="{% static 'assets/vendors/feather-icons/feather.min.js' %}"></script>
     <script src="{% static 'assets/js/template.js' %}"></script>
   </body>

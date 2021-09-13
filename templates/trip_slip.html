@@ -7,6 +7,10 @@
       rel="stylesheet"
       href="{% static 'assets/billcss/bootstrap.min.css' %}"
     />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <style>
       * {
@@ -52,6 +56,12 @@
         text-overflow: ellipsis;
       }
 
+      .actions {
+      position: fixed;
+      top: 40%;
+      left: 20px;
+      transform: translate(0px, -40%);
+    }
       /* header */
 
       header {
@@ -68,7 +78,7 @@
       }
 
       @media print {
-        #printPageButton {
+        #printPageButton, .home {
           display: none;
         }
       }
@@ -77,25 +87,30 @@
 
   <body>
     <main style="padding: 10px">
-      {% comment %}
-      <p><a href="{% url 'sale' %}" id="printPageButton">Home</a></p>
-      {% endcomment %}
+      <div style="margin: 16px;" id='invoice'>
+      <p><a class="home" href="{% url 'consignment' %}" id="printPageButton">Home</a></p>
+
       <h1>&nbsp;</h1>
-      <h5
-        class="text-center"
-        style="width: 280px; position: relative; top: -66px; left: 250px"
-      >
-       RELIANCE DIESEL - TOLLFREE NO.:- 18003157844, CODE-1111 
-      </h5>
+
+     <h3 class="text-center" style="font-family: 'Sigmar One', cursive; font-size: 42px; font-weight:900; position: relative; top: -66px;">New Hemkunt</h3>
+
+
 
       <h4
         class="text-center"
-        style="transform: translateY(-65px); font-size: 20px; font-weight: 900"
+        style="transform: translateY(-65px); font-size: 20px; font-weight: 900; text-decoration: underline;"
       >
         APPROVAL SLIP <br />
-        <b style="font-size:14px";>Rourkela</b>
+         <h6 class="text-center" style="transform: translateY(-65px); font-size: 14px">
+        FLEET OWNER AND TRANSPORT CONTRACTOR & COMMISSION AGENTS<br />H.O :
+        Behind Fauji Body Maker, 1 Tatibandh, Raipur - 492098<br /><b
+          style="letter-spacing: 0.8px; text-decoration: underline">GSTIN: 22JBGPK8561J1Z9</b><br />
+          <b
+          style="letter-spacing: 0.8px; ">Contact : 9691630001 / 9437074969</b><br /><b
+          style="letter-spacing: 0.8px;">Email : goldenmhpawan@gmail.com</b><br />
+      </h6>
       </h4>
-      
+
 
       <section style="transform: translateY(-70px)">
         <table
@@ -114,7 +129,7 @@
          <table
             class="table table-bordered table-condensed"
             style="width: 730px"
-          > 
+          >
             {% comment %} <tr>
               <td colspan="3">Details of Consignor</td>
 
@@ -138,10 +153,10 @@
                 </h6>
               </td>
             </tr> {% endcomment %}
-          </table> 
+          </table>
 
           {% comment %} <table
-            
+
             class="table table-condensed table-bordered table-responsive"
             style="
               transform: translateY(-20px);
@@ -167,16 +182,16 @@
               width: 730px;
             "
           >
-    
+
               <tr class ="hideextra" style:"font-size:13px; font-weight:900; text-align:left;">
               <td colspan="6">
 
-                <h5>T. No. <b style="text-decoration: underline dotted;; letter-spacing: 0.5px">{{trip.truck.truck_number}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                <h5>T. No. <b style="text-decoration: underline dotted;; letter-spacing: 0.5px">{{trip.truck.truck_number}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 From . <b style="text-decoration: underline dotted; letter-spacing: 0.5px">{{trip.source}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                  To : <b style="text-decoration: underline dotted;">{{trip.destination}}</b><br><br>
                   Material : <b style="text-decoration: underline dotted"> {{trip.goods}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   Rate : <b style="text-decoration: underline dotted">{{trip.rate}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  Weight : <b style="text-decoration: underline dotted">{{trip.weight}}</b>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  Weight(MT) : <b style="text-decoration: underline dotted">{{trip.weight}}</b>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   Guarantee : <b style="text-decoration: underline dotted">{{trip.guarantee}}</b><br /><br />
                   Owner Name : <b style="text-decoration: underline dotted">{{trip.trucker.name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   Driver Name : <b style="text-decoration: underline dotted">{{trip.driver_name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -193,9 +208,9 @@
                   <b style="font-weight: 900">PAN Card. Received</b><br><br>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-weight: 900; text-decoration: underline">BALANCE CHALLAN PAID </b><br><br>
                    T No. : <b style="text-decoration: underline dotted">200</b><br><br><br>
-                 
+
                   <h5> {% endcomment %}
-               
+
               </td>
               </tr>
 
@@ -228,7 +243,6 @@
                 <b>{{trip.remaining_payment}}</b>
               </td>
             </tr>
-
             {% comment %} <tr class ="hideextra" style:"font-size:13px; font-weight:900; text-align:left;">
               <td colspan="6">
 
@@ -264,6 +278,8 @@
 
 
         </aside>
+        </div>
+        <div class="actions">
         <button
           type="button"
           class="btn btn-default"
@@ -272,10 +288,36 @@
         >
           Print
         </button>
+        <div class="d-flex align-items-center flex-wrap text-nowrap">
+      <br>
+
+      <button id="download" type="button" class="btn btn-outline-primary btn-icon-text mr-2 mb-2 mb-md-0">
+        <i class="btn-icon-prepend" data-feather="plus"></i>
+
+        Download
+      </button>
+    </div>
+  </div>
       </section>
+    <span class='hide' id='pdf-title'>{{ trip.id }}</span>
     </main>
 
     <script src="{% static 'assets/jss/jquery-1.3.2.min.js' %} "></script>
 
   </body>
 </html>
+<script>
+
+  document.getElementById("download")
+    .addEventListener("click", () => {
+      const invoice = this.document.getElementById("invoice");
+      var opt = {
+        // margin: 1,
+        filename: `trip_id_${document.getElementById('pdf-title').innerText}.pdf`,
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 3 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().from(invoice).set(opt).save();
+    })
+</script>

@@ -7,4 +7,7 @@ urlpatterns = [
     path('consignors', consignors, name="consignors"),
     path('party', api.get_party, name='party'),
     path('truckers', truckers, name="truckers"),
+    path('consignees', consignees, name="consignees"),
+    path('payment', payment_view, name='payment'),
+    path('receipt', receipt_view, name='receipt')
 ]

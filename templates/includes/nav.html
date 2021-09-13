@@ -1,7 +1,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="#" class="sidebar-brand">
-            Hemkunt Transport
+            New Hemkunt
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -12,50 +12,74 @@
     <div class="sidebar-body">
         <ul class="nav">
             <br/>
-            <br/>
+
             <li class="nav-item">
                 <a href="{% url 'consignment' %}" class="nav-link">
-                    <i class="link-icon" data-feather="book"></i>
-                    <span class="link-title">New Consignment</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'consignors' %}" class="nav-link">
-                    <i class="link-icon" data-feather="book"></i>
-                    <span class="link-title">Consignors</span>
+                    <i class="link-icon" data-feather="plus"></i>
+                    <span class="link-title">New Bilty</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'consignment_history' %}" class="nav-link">
-                    <i class="link-icon" data-feather="book"></i>
-                    <span class="link-title">Consignment History</span>
+                    <i class="link-icon" data-feather="database"></i>
+                    <span class="link-title">Bilty History</span>
                 </a>
             </li>
-            <br />
-            <br />
-            {% comment %} <li class="nav-item">
-                <a href="{% url 'trip' %}" class="nav-link">
-                    <i class="link-icon" data-feather="book"></i>
-                    <span class="link-title">Trip</span>
-                </a>
-            </li> {% endcomment %}
             <li class="nav-item">
                 <a href="{% url 'trip_history' %}" class="nav-link">
-                    <i class="link-icon" data-feather="book"></i>
-                    <span class="link-title">Trip History</span>
+                    <i class="link-icon" data-feather="database"></i>
+                    <span class="link-title">Commission History</span>
+                </a>
+            </li>
+            <br>
+            <li class="nav-item">
+                <a href="{% url 'consignors' %}" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Consignors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'consignees' %}" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Consignees</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'truckers' %}" class="nav-link">
-                    <i class="link-icon" data-feather="book"></i>
+                    <i class="link-icon" data-feather="users"></i>
                     <span class="link-title">Truckers</span>
                 </a>
             </li>
+            {% comment %} <li class="nav-item">
+                <a href="{% url 'fuel_history' %}" class="nav-link">
+                    <i class="link-icon" data-feather="list"></i>
+                    <span class="link-title">Fuel History</span>
+                </a>
+            </li> {% endcomment %}
             <!-- <li class="nav-item">
                 <a href="/admin" class="nav-link">
                     <i class="link-icon" data-feather="user"></i>
                     <span class="link-title">Admin</span>
                 </a>
+            </li> -->
+            <br>
+            <li class="nav-item">
+              <a href="{% url 'payment' %}" class="nav-link">
+                <i class="link-icon" data-feather="credit-card"></i>
+                <span class="link-title">Payment</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'receipt' %}" class="nav-link">
+                <i class="link-icon" data-feather="dollar-sign"></i>
+                <span class="link-title">Receipt</span>
+              </a>
+            </li>
+            <!-- <li class="nav-item">
+              <a href="http://localhost:8000/admin/finance/transactionmode/add/" class="nav-link">
+                <i class="link-icon" data-feather="trending-up"></i>
+                <span class="link-title">Payment Modes</span>
+              </a>
             </li> -->
         </ul>
     </div>
